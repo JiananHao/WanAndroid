@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.0"
+    defaultConfig {
+        applicationId "com.example.wanandroid"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'me.yokeyword:fragmentation:1.3.7'
+    implementation 'me.yokeyword:fragmentation-swipeback:1.3.7'
+    // Activity作用域的EventBus，更安全，可有效避免after onSavenInstanceState()异常
+    //compile 'me.yokeyword:eventbus-activity-scope:1.1.0'
+    // Your EventBus's version
+    //compile 'org.greenrobot:eventbus:{version}'
+
+    //dagger2
+    implementation 'com.google.dagger:dagger:2.15'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
+    //retrofit+rxjava
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'io.reactivex:rxjava:1.2.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.4'
+    //BaseQuickAdapter
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    //Banner
+    implementation 'com.youth.banner:banner:1.4.10'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0-alpha02'
+
+//    implementation 'com.jakewharton:butterknife:8.8.1'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //头像
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    //知乎
+    implementation 'com.zhihu.android:matisse:0.4.3'
+
+    //上拉加载下拉刷新
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-15'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-15'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+}

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">WanAndroid</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_knowledge">Knowledge</string>
+    <string name="title_play">WOW</string>
+    <string name="title_project">Project</string>
+    <string name="title_mine">Mine</string>
+</resources>
