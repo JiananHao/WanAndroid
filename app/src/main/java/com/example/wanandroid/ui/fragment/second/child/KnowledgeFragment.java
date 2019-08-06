@@ -14,6 +14,7 @@ import com.example.wanandroid.contract.KnowledgeContract;
 import com.example.wanandroid.model.bean.KnowledgeBean;
 import com.example.wanandroid.presenter.KnowledgePresenter;
 import com.example.wanandroid.ui.adapter.KnowledgeAdapter;
+import com.example.wanandroid.util.LoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,7 @@ public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implemen
 
     @Override
     protected void initData() {
+        LoadingDialog.getInstance(getContext()).show();
         knowledgeBeanList = new ArrayList<>();
         mPresenter.getTree();
         knowledgeAdapter = new KnowledgeAdapter(R.layout.rv_knowledge_item,knowledgeBeanList);
@@ -78,12 +80,12 @@ public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implemen
     public void getTreeOk(KnowledgeBean knowledgeBean) {
         knowledgeBeanList = knowledgeBean.getData();
         knowledgeAdapter.addData(knowledgeBeanList);
-
+        LoadingDialog.getInstance(getContext()).dismiss();
     }
 
     @Override
     public void getTreeErr(Throwable throwable) {
-
+        LoadingDialog.getInstance(getContext()).dismiss();
     }
 
     @Override

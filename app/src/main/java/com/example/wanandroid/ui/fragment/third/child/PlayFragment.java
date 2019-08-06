@@ -12,6 +12,7 @@ import com.example.wanandroid.contract.PlayContract;
 import com.example.wanandroid.model.bean.PlayBean;
 import com.example.wanandroid.presenter.PlayPresenter;
 import com.example.wanandroid.ui.adapter.PlayAdapter;
+import com.example.wanandroid.util.LoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class PlayFragment extends BaseFragment<PlayPresenter> implements PlayCon
 
     @Override
     protected void initData() {
-
+        LoadingDialog.getInstance(getContext()).show();
         playBeans = new ArrayList<>();
         mPresenter.getNavi();
         playAdapter = new PlayAdapter(R.layout.rv_play_item,playBeans);
@@ -58,11 +59,11 @@ public class PlayFragment extends BaseFragment<PlayPresenter> implements PlayCon
     @Override
     public void getNaviOk(PlayBean playBean) {
         playAdapter.addData(playBean.getData());
-
+        LoadingDialog.getInstance(getContext()).dismiss();
     }
 
     @Override
     public void getNaviErr() {
-
+        LoadingDialog.getInstance(getContext()).dismiss();
     }
 }

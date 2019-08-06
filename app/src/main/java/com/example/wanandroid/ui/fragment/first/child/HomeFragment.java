@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,17 @@ import com.example.wanandroid.presenter.HomePresenter;
 import com.example.wanandroid.R;
 import com.example.wanandroid.ui.adapter.HomeAdapter;
 import com.example.wanandroid.util.GlideImageLoader;
+import com.example.wanandroid.util.LoadingDialog;
+import com.scwang.smartrefresh.header.BezierCircleHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -25,8 +37,9 @@ import com.youth.banner.Transformer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View,HomeAdapter.OnItemClickListener,HomeAdapter.OnItemLongClickListener {
+public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View,HomeAdapter.OnItemClickListener,HomeAdapter.OnItemLongClickListener, OnRefreshListener, OnLoadMoreListener {
 
+    private SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private LinearLayout bannerView;
     private Banner banner;
@@ -57,6 +70,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         recyclerView = view.findViewById(R.id.rv_home);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
+        refreshLayout = view.findViewById(R.id.refresh);
+        refreshLayout.setEnableAutoLoadMore(false);
+        refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()).setEnableLastTime(true));
+        refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()).setArrowDrawable(null));
+        refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setOnLoadMoreListener(this);
         bannerView = (LinearLayout) getLayoutInflater().inflate(R.layout.view_banner,null);
         banner = bannerView.findViewById(R.id.banner);
         bannerView.removeView(banner);
@@ -80,6 +99,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     protected void initData() {
+        LoadingDialog.getInstance(getContext()).show();
         mHomeArticleBeans = new ArrayList<>();
         linkList = new ArrayList<>();
         imageList = new ArrayList<>();
@@ -97,6 +117,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void loading() {
         super.loading();
+
     }
 
     @Override
@@ -110,15 +131,19 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void getHomeListOk(HomeArticleBean homeArticleBean) {
+    public void getHomeListOk(HomeArticleBean homeArticleBean,boolean isRefresh) {
 //        mHomeArticleBeans.addAll(homeArticleBean.getData().getDatas());
-        homeAdapter.addData(homeArticleBean.getData().getDatas());
-        Toast.makeText(context,"=======",Toast.LENGTH_LONG).show();
+        if (isRefresh){
+            homeAdapter.replaceData(homeArticleBean.getData().getDatas());
+        }else {
+            homeAdapter.addData(homeArticleBean.getData().getDatas());
+        }
+        LoadingDialog.getInstance(getContext()).dismiss();
     }
 
     @Override
     public void getHomeListErr() {
-
+        LoadingDialog.getInstance(getContext()).dismiss();
     }
 
     @Override
@@ -143,7 +168,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void getBannerErr() {
-
+        LoadingDialog.getInstance(getContext()).dismiss();
     }
 
     @Override
@@ -154,5 +179,17 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
         return false;
+    }
+
+    @Override
+    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+        mPresenter.getMoreHomeList();
+        refreshLayout.finishLoadMore(1000);
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        mPresenter.getFreshHomeList();
+        refreshLayout.finishRefresh(1000);
     }
 }

@@ -78,4 +78,11 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
         }
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void getProjectErr() {
+
+    }
+
+
 }

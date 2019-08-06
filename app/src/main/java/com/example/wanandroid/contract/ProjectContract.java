@@ -8,6 +8,8 @@ public class ProjectContract {
 
     public interface View extends BaseView{
         void getProjectOk(ProjectBean projectBean);
+
+        void getProjectErr();
     }
 
     public interface Presenter extends AbsPresenter<ProjectContract.View>{

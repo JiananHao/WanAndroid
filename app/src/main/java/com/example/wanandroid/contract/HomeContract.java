@@ -9,7 +9,7 @@ import java.util.List;
 
 public class HomeContract {
     public interface View extends BaseView{
-        void getHomeListOk(HomeArticleBean homeArticleBean);
+        void getHomeListOk(HomeArticleBean homeArticleBean,boolean isRefresh);
 
         void getHomeListErr();
 
@@ -20,6 +20,10 @@ public class HomeContract {
 
     public interface Presenter extends AbsPresenter<HomeContract.View>{
         void getHomeList(int page);
+
+        void getFreshHomeList();
+
+        void getMoreHomeList();
 
         void getBanner();
 

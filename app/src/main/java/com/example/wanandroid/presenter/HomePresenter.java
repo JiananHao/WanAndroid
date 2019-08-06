@@ -18,6 +18,10 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
+
+    private boolean isRefresh = true;
+    private int currentPage = 0;
+
     @Inject
     public HomePresenter(){
 
@@ -42,10 +46,24 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
                     @Override
                     public void onNext(HomeArticleBean homeArticleBean) {
-                        mView.getHomeListOk(homeArticleBean);
+                        mView.getHomeListOk(homeArticleBean,isRefresh);
                         Log.d("hao","----nexthome------");
                     }
                 });
+    }
+
+    @Override
+    public void getFreshHomeList() {
+        isRefresh = true;
+        currentPage = 0;
+        getHomeList(currentPage);
+    }
+
+    @Override
+    public void getMoreHomeList() {
+        isRefresh = false;
+        currentPage++;
+        getHomeList(currentPage);
     }
 
     @Override

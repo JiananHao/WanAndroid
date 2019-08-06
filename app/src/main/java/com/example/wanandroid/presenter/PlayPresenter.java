@@ -34,7 +34,7 @@ public class PlayPresenter extends BasePresenter<PlayContract.View> implements P
 
                     @Override
                     public void onError(Throwable e) {
-
+                        mView.getNaviErr();
                     }
 
                     @Override
