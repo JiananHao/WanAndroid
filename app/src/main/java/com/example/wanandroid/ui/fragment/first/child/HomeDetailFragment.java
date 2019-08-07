@@ -3,6 +3,7 @@ package com.example.wanandroid.ui.fragment.first.child;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.wanandroid.R;
 import com.example.wanandroid.base.BaseFragment;
 import com.example.wanandroid.model.bean.HomeArticleBean;
 
@@ -17,7 +18,7 @@ public class HomeDetailFragment extends BaseFragment {
     }
     @Override
     public int getLayoutID() {
-        return 0;
+        return R.layout.fragment_detail;
     }
 
     @Override
