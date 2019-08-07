@@ -1,7 +1,5 @@
-package com.example.wanandroid.ui.fragment.first.child;
+package com.example.wanandroid.ui.activity;
 
-import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -9,46 +7,34 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.example.wanandroid.R;
-import com.example.wanandroid.base.BaseFragment;
-import com.example.wanandroid.model.bean.HomeArticleBean;
+import com.example.wanandroid.base.BaseAcitivty;
 import com.example.wanandroid.util.webviewUtil.SonicSessionClientImpl;
 import com.tencent.sonic.sdk.SonicEngine;
 import com.tencent.sonic.sdk.SonicSession;
-import com.tencent.sonic.sdk.SonicSessionClient;
 import com.tencent.sonic.sdk.SonicSessionConfig;
 
-public class HomeDetailFragment extends BaseFragment {
-
+public class ItemDetailActivity extends BaseAcitivty {
     private WebView webView;
     private SonicSession sonicSession;
     private SonicSessionClientImpl sonicSessionClient = null;
-    private HomeArticleBean.DataBean.DatasBean datasBean;
     private String url;
+    private String title;
 
-    public static HomeDetailFragment getInstance(HomeArticleBean.DataBean.DatasBean datasBean){
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("bean",datasBean);
-        HomeDetailFragment homeDetailFragment = new HomeDetailFragment();
-        homeDetailFragment.setArguments(bundle);
-        return homeDetailFragment;
-    }
     @Override
-    public int getLayoutID() {
-        return R.layout.fragment_detail;
+    protected int getLayout() {
+        return R.layout.activity_item_detail;
     }
 
     @Override
-    protected void initUI(View view) {
-//        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if (getArguments() == null)
-            return;
-        datasBean = getArguments().getParcelable("bean");
-        if (datasBean != null){
-            url = datasBean.getLink();
-        }
+    protected void initView() {
+        title = getIntent().getStringExtra("title");
+        url = getIntent().getStringExtra("url");
+
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
         sonicSession = SonicEngine.getInstance().createSession(url,  new SonicSessionConfig.Builder().build());
         if (null != sonicSession) {
             sonicSession.bindClient(sonicSessionClient = new SonicSessionClientImpl());
@@ -58,13 +44,17 @@ public class HomeDetailFragment extends BaseFragment {
 //            throw new UnknownError("create session fail!");
 //            Toast.makeText(getContext(), "create sonic session fail!", Toast.LENGTH_LONG).show();
         }
-
-        webView = view.findViewById(R.id.web_detail);
-
+        webView = findViewById(R.id.web_item_detail);
     }
 
     @Override
     protected void initData() {
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+            }
+        });
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -72,12 +62,6 @@ public class HomeDetailFragment extends BaseFragment {
                 if (sonicSession != null) {
                     sonicSession.getSessionClient().pageFinish(url);
                 }
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
             }
 
             @Override
@@ -98,7 +82,7 @@ public class HomeDetailFragment extends BaseFragment {
 
         WebSettings webSettings = webView.getSettings();
 
-        // bind javascript
+        // step 4: bind javascript
         // note:if api level lower than 17(android 4.2), addJavascriptInterface has security
         // issue, please use x5 or see https://developer.android.com/reference/android/webkit/
         // WebView.html#addJavascriptInterface(java.lang.Object, java.lang.String)
@@ -117,12 +101,6 @@ public class HomeDetailFragment extends BaseFragment {
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
 
-        webView.setWebChromeClient(new WebChromeClient(){
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-            }
-        });
 
         //  webview is ready now, just tell session client to bind
         if (sonicSessionClient != null) {
@@ -134,13 +112,7 @@ public class HomeDetailFragment extends BaseFragment {
     }
 
     @Override
-    public boolean onBackPressedSupport() {
-        pop();
-        return true;
-    }
-
-    @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         if (null != sonicSession) {
             sonicSession.destroy();
             sonicSession = null;

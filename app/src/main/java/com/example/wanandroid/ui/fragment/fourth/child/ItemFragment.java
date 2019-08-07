@@ -1,5 +1,6 @@
 package com.example.wanandroid.ui.fragment.fourth.child;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,11 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.wanandroid.R;
 import com.example.wanandroid.base.BaseFragment;
 import com.example.wanandroid.contract.ItemContract;
 import com.example.wanandroid.model.bean.ProjectItemBean;
 import com.example.wanandroid.presenter.ProjectItemPresenter;
+import com.example.wanandroid.ui.activity.ItemDetailActivity;
 import com.example.wanandroid.ui.adapter.ProjectItemAdapter;
 import com.example.wanandroid.util.LoadingDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -28,7 +31,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemFragment extends BaseFragment<ProjectItemPresenter> implements ItemContract.View, OnRefreshListener, OnLoadMoreListener {
+public class ItemFragment extends BaseFragment<ProjectItemPresenter> implements ItemContract.View, OnRefreshListener, OnLoadMoreListener, ProjectItemAdapter.OnItemClickListener {
 
     private int cid;
     private SmartRefreshLayout refreshLayout;
@@ -76,6 +79,7 @@ public class ItemFragment extends BaseFragment<ProjectItemPresenter> implements 
         Log.d("hao","=======cid========="+ cid);
         mPresenter.getProjectItem(1,cid);
         projectItemAdapter = new ProjectItemAdapter(R.layout.project_item_item,dataBeans);
+        projectItemAdapter.setOnItemClickListener(this);
         rvProject.setAdapter(projectItemAdapter);
 
     }
@@ -111,5 +115,15 @@ public class ItemFragment extends BaseFragment<ProjectItemPresenter> implements 
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         refreshLayout.finishRefresh(1000);
         mPresenter.getRefreshProjectItem(cid);
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        Log.d("hao","!!!!!!!!");
+        Intent intent = new Intent(getContext(), ItemDetailActivity.class);
+        intent.putExtra("title",dataBeans.get(position).getTitle());
+        intent.putExtra("url",dataBeans.get(position).getLink());
+        Log.d("hao","===title==="+ dataBeans.get(position).getTitle() + "=====url===="+dataBeans.get(position).getLink());
+        startActivity(intent);
     }
 }

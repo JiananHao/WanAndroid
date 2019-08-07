@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "com.example.wanandroid"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -66,4 +66,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-15'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-15'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //webView VasSonic
+    implementation 'com.tencent.sonic:sdk:3.1.0'
 }
