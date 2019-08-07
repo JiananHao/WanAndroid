@@ -2,7 +2,6 @@ package com.example.wanandroid.ui.fragment.first.child;
 
 import android.os.Bundle;
 import android.view.View;
-
 import com.example.wanandroid.R;
 import com.example.wanandroid.base.BaseFragment;
 import com.example.wanandroid.model.bean.HomeArticleBean;
