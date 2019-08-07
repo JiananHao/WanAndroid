@@ -20,10 +20,10 @@
                 android:layout_width="85dp"
                 android:layout_height="85dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_mine_black_24dp" />
+                <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:src="@drawable/ic_mine_black_24dp" />-->
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_head"

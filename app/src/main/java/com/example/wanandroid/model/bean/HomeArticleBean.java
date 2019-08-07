@@ -1,5 +1,8 @@
 package com.example.wanandroid.model.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 public class HomeArticleBean {
@@ -112,7 +115,7 @@ public class HomeArticleBean {
             this.datas = datas;
         }
 
-        public static class DatasBean {
+        public static class DatasBean implements Parcelable {
             /**
              * apkLink :
              * author : Anlia
@@ -164,6 +167,44 @@ public class HomeArticleBean {
             private int visible;
             private int zan;
             private List<?> tags;
+
+            protected DatasBean(Parcel in) {
+                apkLink = in.readString();
+                author = in.readString();
+                chapterId = in.readInt();
+                chapterName = in.readString();
+                collect = in.readByte() != 0;
+                courseId = in.readInt();
+                desc = in.readString();
+                envelopePic = in.readString();
+                fresh = in.readByte() != 0;
+                id = in.readInt();
+                link = in.readString();
+                niceDate = in.readString();
+                origin = in.readString();
+                prefix = in.readString();
+                projectLink = in.readString();
+                publishTime = in.readLong();
+                superChapterId = in.readInt();
+                superChapterName = in.readString();
+                title = in.readString();
+                type = in.readInt();
+                userId = in.readInt();
+                visible = in.readInt();
+                zan = in.readInt();
+            }
+
+            public static final Creator<DatasBean> CREATOR = new Creator<DatasBean>() {
+                @Override
+                public DatasBean createFromParcel(Parcel in) {
+                    return new DatasBean(in);
+                }
+
+                @Override
+                public DatasBean[] newArray(int size) {
+                    return new DatasBean[size];
+                }
+            };
 
             public String getApkLink() {
                 return apkLink;
@@ -355,6 +396,38 @@ public class HomeArticleBean {
 
             public void setTags(List<?> tags) {
                 this.tags = tags;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel parcel, int i) {
+                parcel.writeString(apkLink);
+                parcel.writeString(author);
+                parcel.writeInt(chapterId);
+                parcel.writeString(chapterName);
+                parcel.writeByte((byte) (collect ? 1 : 0));
+                parcel.writeInt(courseId);
+                parcel.writeString(desc);
+                parcel.writeString(envelopePic);
+                parcel.writeByte((byte) (fresh ? 1 : 0));
+                parcel.writeInt(id);
+                parcel.writeString(link);
+                parcel.writeString(niceDate);
+                parcel.writeString(origin);
+                parcel.writeString(prefix);
+                parcel.writeString(projectLink);
+                parcel.writeLong(publishTime);
+                parcel.writeInt(superChapterId);
+                parcel.writeString(superChapterName);
+                parcel.writeString(title);
+                parcel.writeInt(type);
+                parcel.writeInt(userId);
+                parcel.writeInt(visible);
+                parcel.writeInt(zan);
             }
         }
     }

@@ -134,8 +134,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void getHomeListOk(HomeArticleBean homeArticleBean,boolean isRefresh) {
 //        mHomeArticleBeans.addAll(homeArticleBean.getData().getDatas());
         if (isRefresh){
+            mHomeArticleBeans = homeArticleBean.getData().getDatas();
             homeAdapter.replaceData(homeArticleBean.getData().getDatas());
         }else {
+            mHomeArticleBeans.addAll(homeArticleBean.getData().getDatas());
             homeAdapter.addData(homeArticleBean.getData().getDatas());
         }
         LoadingDialog.getInstance(getContext()).dismiss();
@@ -173,7 +175,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+        HomeDetailFragment homeDetailFragment = HomeDetailFragment.getInstance((HomeArticleBean.DataBean.DatasBean) adapter.getData().get(position));
+        start(homeDetailFragment);
     }
 
     @Override
