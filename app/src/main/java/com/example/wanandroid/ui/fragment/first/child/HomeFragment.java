@@ -33,6 +33,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     private List<String> linkList;
     private List<String> imageList;
     private List<String> titleList;
+    private List<String> bannerLink;
     private HomeAdapter homeAdapter;
 
     public static HomeFragment getInstance(){
@@ -104,6 +106,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         linkList = new ArrayList<>();
         imageList = new ArrayList<>();
         titleList = new ArrayList<>();
+        bannerLink = new ArrayList<>();
         mPresenter.getHomeList(0);
         Log.d("hao","----da------");
         mPresenter.getBanner();
@@ -154,6 +157,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             linkList.add(banner.getUrl());
             imageList.add(banner.getImagePath());
             titleList.add(banner.getTitle());
+            bannerLink.add(banner.getUrl());
         }
         Log.d("hao","----baner------");
         banner.setImageLoader(new GlideImageLoader())
@@ -166,6 +170,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 .setIndicatorGravity(BannerConfig.RIGHT)
                 .start();
 
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                if (bannerLink.size() > 0){
+                    BannerFragment bannerFragment = BannerFragment.getInstance(bannerLink.get(position));
+                    start(bannerFragment);
+                }
+            }
+        });
     }
 
     @Override

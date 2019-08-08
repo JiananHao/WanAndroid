@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.wanandroid.R;
 import com.example.wanandroid.base.BaseFragment;
+import com.example.wanandroid.ui.activity.LoginActivity;
 import com.example.wanandroid.util.MyGlideEngine;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -47,14 +48,15 @@ public class MineFragment extends BaseFragment {
         imageHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Matisse.from(MineFragment.this)
-                        .choose(MimeType.allOf())//图片类型
-                        .countable(false)//true:选中后显示数字;false:选中后显示对号
-                        .maxSelectable(5)//可选的最大数
-                        .capture(false)//选择照片时，是否显示拍照
-                        .captureStrategy(new CaptureStrategy(true, "com.example.wanandroid.fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
-                        .imageEngine(new MyGlideEngine())//图片加载引擎
-                        .forResult(REQUEST_CODE_CHOOSE);//
+                startActivity(new Intent(getContext(), LoginActivity.class));
+//                Matisse.from(MineFragment.this)
+//                        .choose(MimeType.allOf())//图片类型
+//                        .countable(false)//true:选中后显示数字;false:选中后显示对号
+//                        .maxSelectable(5)//可选的最大数
+//                        .capture(false)//选择照片时，是否显示拍照
+//                        .captureStrategy(new CaptureStrategy(true, "com.example.wanandroid.fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
+//                        .imageEngine(new MyGlideEngine())//图片加载引擎
+//                        .forResult(REQUEST_CODE_CHOOSE);//
             }
         });
     }

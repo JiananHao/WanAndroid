@@ -1,6 +1,7 @@
-package com.example.wanandroid.ui.activity;
+package com.example.wanandroid.ui.fragment.first.child;
 
-import android.view.WindowManager;
+import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -9,34 +10,37 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.wanandroid.R;
-import com.example.wanandroid.base.BaseAcitivty;
+import com.example.wanandroid.base.BaseFragment;
 import com.example.wanandroid.util.webviewUtil.SonicSessionClientImpl;
 import com.tencent.sonic.sdk.SonicEngine;
 import com.tencent.sonic.sdk.SonicSession;
 import com.tencent.sonic.sdk.SonicSessionConfig;
 
-public class ItemDetailActivity extends BaseAcitivty {
+public class BannerFragment extends BaseFragment {
+
     private WebView webView;
     private SonicSession sonicSession;
     private SonicSessionClientImpl sonicSessionClient = null;
-    private String url;
-    private String title;
+    private String mUrl;
 
+    public static BannerFragment getInstance(String url){
+        Bundle bundle = new Bundle();
+        bundle.putString("url",url);
+        BannerFragment bannerFragment = new BannerFragment();
+        bannerFragment.setArguments(bundle);
+        return bannerFragment;
+    }
     @Override
-    protected int getLayout() {
-        return R.layout.activity_item_detail;
+    public int getLayoutID() {
+        return R.layout.fragment_banner;
     }
 
     @Override
-    protected void initView() {
-        title = getIntent().getStringExtra("title");
-        url = getIntent().getStringExtra("url");
-
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(title);
-
-        sonicSession = SonicEngine.getInstance().createSession(url,  new SonicSessionConfig.Builder().build());
+    protected void initUI(View view) {
+        if (getArguments() == null)
+            return;
+        mUrl = getArguments().getString("url");
+        sonicSession = SonicEngine.getInstance().createSession(mUrl,  new SonicSessionConfig.Builder().build());
         if (null != sonicSession) {
             sonicSession.bindClient(sonicSessionClient = new SonicSessionClientImpl());
         } else {
@@ -45,17 +49,14 @@ public class ItemDetailActivity extends BaseAcitivty {
 //            throw new UnknownError("create session fail!");
 //            Toast.makeText(getContext(), "create sonic session fail!", Toast.LENGTH_LONG).show();
         }
-        webView = findViewById(R.id.web_item_detail);
+        webView = view.findViewById(R.id.web_banner);
+
+
     }
 
     @Override
     protected void initData() {
-        webView.setWebChromeClient(new WebChromeClient(){
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-            }
-        });
+
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -63,6 +64,12 @@ public class ItemDetailActivity extends BaseAcitivty {
                 if (sonicSession != null) {
                     sonicSession.getSessionClient().pageFinish(url);
                 }
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
             }
 
             @Override
@@ -83,7 +90,7 @@ public class ItemDetailActivity extends BaseAcitivty {
 
         WebSettings webSettings = webView.getSettings();
 
-        // step 4: bind javascript
+        // bind javascript
         // note:if api level lower than 17(android 4.2), addJavascriptInterface has security
         // issue, please use x5 or see https://developer.android.com/reference/android/webkit/
         // WebView.html#addJavascriptInterface(java.lang.Object, java.lang.String)
@@ -102,18 +109,30 @@ public class ItemDetailActivity extends BaseAcitivty {
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
 
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+            }
+        });
 
         //  webview is ready now, just tell session client to bind
         if (sonicSessionClient != null) {
             sonicSessionClient.bindView(webView);
             sonicSessionClient.clientReady();
         } else { // default mode
-            webView.loadUrl(url);
+            webView.loadUrl(mUrl);
         }
     }
 
     @Override
-    protected void onDestroy() {
+    public boolean onBackPressedSupport() {
+        pop();
+        return true;
+    }
+
+    @Override
+    public void onDestroy() {
         if (null != sonicSession) {
             sonicSession.destroy();
             sonicSession = null;
