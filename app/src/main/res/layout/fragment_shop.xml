@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rec_left"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:fastScrollEnabled="false"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_right"
+            android:fastScrollEnabled="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/right_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingStart="13dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="10dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+    </FrameLayout>
+</LinearLayout>
