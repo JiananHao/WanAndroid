@@ -57,8 +57,8 @@ public class PlayFragment extends BaseFragment<PlayPresenter> implements PlayCon
     }
 
     @Override
-    public void getNaviOk(PlayBean playBean) {
-        playAdapter.addData(playBean.getData());
+    public void getNaviOk(List<PlayBean.DataBean> playBean) {
+        playAdapter.addData(playBean);
         LoadingDialog.getInstance(getContext()).dismiss();
     }
 

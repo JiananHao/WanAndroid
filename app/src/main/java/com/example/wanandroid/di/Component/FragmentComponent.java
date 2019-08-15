@@ -5,6 +5,7 @@ import com.example.wanandroid.ui.fragment.first.child.HomeFragment;
 import com.example.wanandroid.ui.fragment.fourth.child.ItemFragment;
 import com.example.wanandroid.ui.fragment.fourth.child.ProjectFragment;
 import com.example.wanandroid.ui.fragment.second.child.KnowledgeFragment;
+import com.example.wanandroid.ui.fragment.third.child.NaviFragment;
 import com.example.wanandroid.ui.fragment.third.child.PlayFragment;
 
 import dagger.Component;
@@ -21,4 +22,6 @@ public interface FragmentComponent {
     void inject(ProjectFragment projectFragment);
 
     void inject(ItemFragment itemFragment);
+
+    void inject(NaviFragment naviFragment);
 }

@@ -4,9 +4,11 @@ import com.example.wanandroid.base.AbsPresenter;
 import com.example.wanandroid.base.BaseView;
 import com.example.wanandroid.model.bean.PlayBean;
 
+import java.util.List;
+
 public class PlayContract {
     public interface View extends BaseView{
-        void getNaviOk(PlayBean playBean);
+        void getNaviOk(List<PlayBean.DataBean> dataBeans);
 
         void getNaviErr();
     }

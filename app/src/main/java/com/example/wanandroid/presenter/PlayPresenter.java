@@ -1,5 +1,7 @@
 package com.example.wanandroid.presenter;
 
+import android.util.Log;
+
 import com.example.wanandroid.base.BasePresenter;
 import com.example.wanandroid.contract.PlayContract;
 import com.example.wanandroid.model.api.ApiService;
@@ -39,7 +41,8 @@ public class PlayPresenter extends BasePresenter<PlayContract.View> implements P
 
                     @Override
                     public void onNext(PlayBean playBean) {
-                        mView.getNaviOk(playBean);
+                        Log.d("hao","===dataBean===="+ playBean.getData().size());
+                        mView.getNaviOk(playBean.getData());
                     }
                 });
     }

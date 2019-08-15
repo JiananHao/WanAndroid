@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.wanandroid.base.BaseFragment;
 import com.example.wanandroid.R;
+import com.example.wanandroid.ui.fragment.third.child.NaviFragment;
 import com.example.wanandroid.ui.fragment.third.child.PlayFragment;
 
 public class ThirdFragment extends BaseFragment {
@@ -44,8 +45,8 @@ public class ThirdFragment extends BaseFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        if (findChildFragment(PlayFragment.class) == null) {
-            loadRootFragment(R.id.fl_third_container, PlayFragment.getInstance());
+        if (findChildFragment(NaviFragment.class) == null) {
+            loadRootFragment(R.id.fl_third_container, NaviFragment.getInstance());
         }
     }
 }
