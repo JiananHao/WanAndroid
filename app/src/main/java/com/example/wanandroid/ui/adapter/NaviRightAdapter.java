@@ -35,13 +35,6 @@ public class NaviRightAdapter extends BaseSectionQuickAdapter<PlayBean.DataBean,
         Log.d("hao","===NaviRightAdapter===="+articlesBean.getTitle());
         helper.setText(R.id.navi_right,articlesBean.getTitle());
         helper.addOnClickListener(R.id.navi_right);
-//        helper.getView(R.id.navi_right).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(mContext,articlesBean.getTitle()+"^v^",Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
 
     }
 }

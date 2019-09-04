@@ -161,13 +161,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         }
         Log.d("hao","----baner------");
         banner.setImageLoader(new GlideImageLoader())
-                .setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE)
+                .setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
                 .setImages(imageList)
                 .setBannerAnimation(Transformer.DepthPage)
                 .setBannerTitles(titleList)
                 .isAutoPlay(true)
                 .setDelayTime(5000)
-                .setIndicatorGravity(BannerConfig.RIGHT)
+                .setIndicatorGravity(BannerConfig.CENTER)
                 .start();
 
         banner.setOnBannerListener(new OnBannerListener() {

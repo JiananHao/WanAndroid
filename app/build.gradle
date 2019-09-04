@@ -71,4 +71,6 @@ dependencies {
 
     //webView VasSonic
     implementation 'com.tencent.sonic:sdk:3.1.0'
+
+    implementation 'me.relex:circleindicator:2.1.4'
 }

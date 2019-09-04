@@ -3,6 +3,7 @@ package com.example.wanandroid.ui.fragment.fourth.child;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;

@@ -4,20 +4,24 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.wanandroid.R;
 import com.example.wanandroid.base.BaseFragment;
 import com.example.wanandroid.ui.activity.LoginActivity;
 import com.example.wanandroid.util.MyGlideEngine;
+import com.google.gson.JsonObject;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.util.HashSet;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -44,7 +48,40 @@ public class MineFragment extends BaseFragment {
     protected void initUI(View view) {
         imageHead = view.findViewById(R.id.image_head);
         userName = view.findViewById(R.id.tv_username);
+        userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int[] m = new int[256];
+                String s = "abadafag";
+                int res = 0, left = 0;
 
+                for (int i = 0; i < s.length(); i++) {
+                    Log.d("hao","===== " + s.charAt(i));
+                    Log.d("hao","===== " + m[s.charAt(i)]);
+                    Log.d("hao","=========== ");
+                    left = Math.max(left, m[s.charAt(i)]);
+
+                    res = Math.max(res, i - left + 1);
+
+                    m[s.charAt(i)] = i + 1;
+                }
+//                int res = 0, left = 0, right = 0;
+//                HashSet<Character> t = new HashSet<Character>();
+//
+//                while (right < s.length()) {
+//                    if (!t.contains(s.charAt(right))) {
+//                        t.add(s.charAt(right));
+//                        right++;
+//                        res = Math.max(res, t.size());
+//                    } else {
+//                        t.remove(s.charAt(left));
+//                        left++;
+//                    }
+//                }
+                Toast.makeText(getActivity(),res+"",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(),SearchActivity.class));
+            }
+        });
         imageHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

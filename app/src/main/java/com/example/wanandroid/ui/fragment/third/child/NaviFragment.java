@@ -174,18 +174,6 @@ public class NaviFragment extends BaseFragment<PlayPresenter> implements PlayCon
             }
         }
     }
-    private int leftToPosition(int index){
-        int position = 0;
-        if (leftList.size() == 0 || rightList.size() == 0){
-            return 0;
-        }
-        for (int i = 0;i< leftList.size();i++){
-            if (rightList.get(index).header.equalsIgnoreCase(leftList.get(i))){
-                position = i;
-            }
-        }
-        return position;
-    }
 
     @Override
     public void getNaviErr() {
