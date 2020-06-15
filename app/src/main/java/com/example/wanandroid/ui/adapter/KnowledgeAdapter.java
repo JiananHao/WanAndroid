@@ -2,13 +2,13 @@ package com.example.wanandroid.ui.adapter;
 
 import android.text.TextUtils;
 
-import androidx.annotation.Nullable;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.wanandroid.R;
 import com.example.wanandroid.model.bean.KnowledgeBean;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public class KnowledgeAdapter extends BaseQuickAdapter<KnowledgeBean.DataBean,KnowledgeViewHolder> {
 
@@ -22,7 +22,7 @@ public class KnowledgeAdapter extends BaseQuickAdapter<KnowledgeBean.DataBean,Kn
         if (!TextUtils.isEmpty(item.getName())){
             helper.setText(R.id.tv_knowledge_title,item.getName());
         }
-        if (!TextUtils.isEmpty(item.getChildren().get(0).getName())){
+        if (item.getChildren() != null && item.getChildren().size() > 0){
             helper.setText(R.id.tv_knowledge_content,item.getChildren().get(0).getName());
         }
     }
